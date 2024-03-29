@@ -37,12 +37,14 @@ Este archivo proporciona una guía paso a paso para configurar y ejecutar el pro
    dotnet add package Microsoft.aspnetcore.mvc.Newtonsoftjson # Per evitar errors de serialització (circular reference)
    dotnet add package Microsoft.EntityFrameworkCore.Proxies # En principi no cal
 
-   dotnet add package Microsoft.VisualStudio.Web.CodeGeneration.Design -v 7.0.0
-   dotnet add package Microsoft.EntityFrameworkCore.Design -v 7.0.0
-   dotnet add package Microsoft.EntityFrameworkCore.SqlServer -v 7.0.0
+   dotnet add package Microsoft.VisualStudio.Web.CodeGeneration.Design 
+   dotnet add package Microsoft.EntityFrameworkCore.Design 
+   dotnet add package Microsoft.EntityFrameworkCore.SqlServer 
    dotnet tool uninstall -g dotnet-aspnet-codegenerator
    dotnet tool install -g dotnet-aspnet-codegenerator
    dotnet tool update -g dotnet-aspnet-codegenerator
+
+   dotnet add package Swashbuckle.AspNetCore --version 6.4.0
    ```
 
 4. **Crear el Contexto de Datos:**

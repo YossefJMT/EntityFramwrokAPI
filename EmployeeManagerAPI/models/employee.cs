@@ -26,5 +26,9 @@ namespace ProyectoAPI.Models
         public DateTime BirthDate { get; set; }
         public string FullName => $"{FirstName} {MiddleInitial} {LastName}";
 
+        // Propiedad de navegación para la relación de supervisión
+        public virtual ICollection<Employee> SupervisedEmployees { get; set; }
+    
+
     }
 }

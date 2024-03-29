@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace ProyectoAPI.Models
+namespace EmployeeManagerAPI.Models
 {
     public class Department
     {
@@ -19,5 +19,8 @@ namespace ProyectoAPI.Models
 
         // Propiedad calculada para el número de empleados
         public int NumberOfEmployees => Employees?.Count ?? 0;    
+
+        // Propiedad de navegación para la relación Manages
+        public virtual Manage Manages { get; set; }
     }
 }

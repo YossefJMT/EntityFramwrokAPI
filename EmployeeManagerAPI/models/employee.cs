@@ -2,7 +2,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ProyectoAPI.Models
+namespace EmployeeManagerAPI.Models
 {
     public class Employee
     {
@@ -33,14 +33,15 @@ namespace ProyectoAPI.Models
 
         // Propiedad de navegación para representar al supervisor
         public virtual Employee Supervisor { get; set; }
-        
 
-        // Foreign key para la relación WorksFor
-        [ForeignKey("Department")]
+
+        // Notación de clave compuesta para la relación WorksFor
         public string DepartmentName { get; set; }
-        [ForeignKey("Department")]
         public int DepartmentNumber { get; set; }
-        // Propiedad de navegación para la relación WorksFor
         public virtual Department Department { get; set; }
+
+        // Propiedad de navegación para la relación Manages
+        public virtual Manage Manages { get; set; }
+
     }
 }

@@ -6,6 +6,7 @@ namespace ProyectoAPI.Models
     public class Employee
     {
         [Key]
+        [StringLength(9)]
         public string SSN { get; set; }
 
         [Required]
@@ -26,8 +27,11 @@ namespace ProyectoAPI.Models
         public DateTime BirthDate { get; set; }
         public string FullName => $"{FirstName} {MiddleInitial} {LastName}";
 
-        // Propiedad de navegación para la relación de supervisión
-        public virtual ICollection<Employee> SupervisedEmployees { get; set; }
+        // Clave externa para almacenar el ID del supervisor
+        public string SupervisorId { get; set; }
+
+        // Propiedad de navegación para representar al supervisor
+        public virtual Employee Supervisor { get; set; }
     
 
     }

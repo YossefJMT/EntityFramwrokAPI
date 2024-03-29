@@ -20,3 +20,8 @@ obj/
 
 # Carpeta de datos de SQL Server generada por Docker
 /docker/data/
+/docker/DB/
+
+# migraciones de Entity Framework
+EmployeeManagerAPI/Migrations/
+

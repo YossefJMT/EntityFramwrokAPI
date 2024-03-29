@@ -2,18 +2,18 @@ version: '3.8'
 
 services:
   mssql:
-    image: mcr.microsoft.com/mssql/server:latest
+    image: mcr.microsoft.com/mssql/server
     container_name: sql_server
+    user: root
     environment:
       SA_PASSWORD: "Passw0rd!"
       ACCEPT_EULA: "Y"
-      MSSQL_PID: "Developer"
       MSSQL_USER: "Developer" 
       MSSQL_PASSWORD: "Devel0per!"
     ports:
       - "1433:1433"
     volumes:
-      - ./data:/var/opt/mssql
+      - ./DB:/var/opt/mssql/data
 
 # to run the container
 # docker-compose up -d

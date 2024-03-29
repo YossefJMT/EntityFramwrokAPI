@@ -32,7 +32,12 @@ namespace ProyectoAPI.Models
 
         // Propiedad de navegación para representar al supervisor
         public virtual Employee Supervisor { get; set; }
-    
 
+
+        // Foreign key para la relación WorksFor
+        public string DepartmentName { get; set; }
+        public int DepartmentNumber { get; set; }
+        // Propiedad de navegación para la relación WorksFor
+        public virtual Department Department { get; set; }
     }
 }

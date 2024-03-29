@@ -27,6 +27,22 @@ Este archivo proporciona una guía paso a paso para configurar y ejecutar el pro
    Agrega las herramientas de Entity Framework Core al proyecto para ejecutar migraciones.
    ```bash
    dotnet tool install --global dotnet-ef
+   dotnet add package Microsoft.EntityFrameworkCore
+   dotnet add package Microsoft.EntityFrameworkCore.SqlServer
+   dotnet add package Microsoft.EntityFrameworkCore.Design
+   dotnet add package Microsoft.EntityFrameworkCore.Relational
+   dotnet add package Microsoft.VisualStudio.Web.CodeGeneration.Design
+   dotnet add package Microsoft.EntityFrameworkCore.Tools
+
+   dotnet add package Microsoft.aspnetcore.mvc.Newtonsoftjson # Per evitar errors de serialització (circular reference)
+   dotnet add package Microsoft.EntityFrameworkCore.Proxies # En principi no cal
+
+   dotnet add package Microsoft.VisualStudio.Web.CodeGeneration.Design -v 7.0.0
+   dotnet add package Microsoft.EntityFrameworkCore.Design -v 7.0.0
+   dotnet add package Microsoft.EntityFrameworkCore.SqlServer -v 7.0.0
+   dotnet tool uninstall -g dotnet-aspnet-codegenerator
+   dotnet tool install -g dotnet-aspnet-codegenerator
+   dotnet tool update -g dotnet-aspnet-codegenerator
    ```
 
 4. **Crear el Contexto de Datos:**

@@ -18,9 +18,9 @@ namespace EmployeeManagerAPI.Data
             modelBuilder.Entity<Employee>()
                 .HasOne(e => e.Supervisor)
                 .WithMany()
-                .HasForeignKey(e => e.SupervisorId)
-                .OnDelete(DeleteBehavior.Restrict);
-            
+                .HasForeignKey(e => e.SupervisorSSN);
+
+
             // Configuración de la relación WorksFor entre Employee y Department
             modelBuilder.Entity<Employee>()
                 .HasOne(e => e.Department)

@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ProyectoAPI.Models
 {
@@ -28,14 +29,16 @@ namespace ProyectoAPI.Models
         public string FullName => $"{FirstName} {MiddleInitial} {LastName}";
 
         // Clave externa para almacenar el ID del supervisor
-        public string SupervisorId { get; set; }
+        public string SupervisorSSN { get; set; }
 
         // Propiedad de navegación para representar al supervisor
         public virtual Employee Supervisor { get; set; }
-
+        
 
         // Foreign key para la relación WorksFor
+        [ForeignKey("Department")]
         public string DepartmentName { get; set; }
+        [ForeignKey("Department")]
         public int DepartmentNumber { get; set; }
         // Propiedad de navegación para la relación WorksFor
         public virtual Department Department { get; set; }

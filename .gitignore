@@ -1,0 +1,22 @@
+# Archivos y carpetas específicos de Visual Studio
+.vscode/
+bin/
+obj/
+*.dbmdl
+*.jfm
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Carpeta de migraciones de Entity Framework
+/EmployeeManagerAPI/Data/Migrations/
+
+# Archivos de respaldo
+*~
+*.bak
+*.backup
+*.log
+
+# Carpeta de datos de SQL Server generada por Docker
+/docker/data/

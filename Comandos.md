@@ -95,7 +95,28 @@ Este archivo proporciona una guía paso a paso para configurar y ejecutar el pro
    dotnet ef database update
    ```
 
-8. **Ejecutar el Proyecto:**
+8. **Genera el controlador**:
+   Utiliza la herramienta de generación de código para crear un controlador para tu modelo de datos. Por ejemplo, si tienes un modelo llamado `Employee`, puedes generar un controlador CRUD utilizando el siguiente comando:
+
+   ```
+   dotnet aspnet-codegenerator controller -name EmployeesController -async -api -m Employee -dc DataContext -outDir Controllers
+   ```
+
+   - `-name EmployeesController`: Especifica el nombre del controlador a generar.
+   - `-async`: Genera acciones asincrónicas en el controlador.
+   - `-api`: Genera un controlador de API web.
+   - `-m Employee`: Especifica el nombre del modelo que utilizará el controlador.
+   - `-dc DataContext`: Especifica el nombre del contexto de datos que utilizará el controlador.
+   - `-outDir Controllers`: Especifica el directorio donde se generará el controlador. En este caso, se generará en el directorio "Controllers".
+
+   Asegúrate de reemplazar `Employee` y `DataContext` con los nombres de tu modelo y contexto de datos, respectivamente.
+
+9. **Repite el proceso para otros modelos (si es necesario)**:
+   Si tienes más modelos en tu proyecto y deseas generar controladores para ellos, repite el paso 2 para cada uno de los modelos.
+
+Después de ejecutar estos pasos, se generarán automáticamente controladores en tu proyecto que implementan las operaciones CRUD (Crear, Leer, Actualizar, Eliminar) para tus modelos de datos. Estos controladores estarán en el directorio especificado (`Controllers` en este caso) y estarán listos para ser utilizados en tu aplicación ASP.NET Core.
+
+10. **Ejecutar el Proyecto:**
    Una vez completados los pasos anteriores, puedes ejecutar el proyecto utilizando el siguiente comando.
    ```bash
    dotnet run

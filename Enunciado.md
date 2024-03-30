@@ -24,7 +24,7 @@ Además, se ha propuesto al menos una solicitud adicional que involucra un cálc
 La base de datos estará diseñada de acuerdo con el siguiente enunciado:
 
 ## Esquema de la Base de Datos
-
+![alt text](Entidad-Relacion.png)
 ### Entidades
 
 1. **Employee**:

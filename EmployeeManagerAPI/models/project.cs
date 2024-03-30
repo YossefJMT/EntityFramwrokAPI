@@ -19,5 +19,8 @@ namespace EmployeeManagerAPI.Models
 
         // Propiedad de navegación para la relación con Department
         public virtual Department ControllingDepartment { get; set; }
+
+        // Propiedad de navegación para la relación N:N (WorksOn)
+        public virtual ICollection<WorksOn> WorksOns { get; set; }
     }
 }

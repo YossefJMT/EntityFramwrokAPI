@@ -63,7 +63,19 @@ namespace EmployeeManagerAPI.Data
                 .HasForeignKey(p => new { p.ControllingDepartmentName, p.ControllingDepartmentNumber })
                 .OnDelete(DeleteBehavior.Restrict);
 
-            
+            // Configuración de la relación N:N entre Employee y Project (WorksOn)
+            modelBuilder.Entity<WorksOn>()
+                .HasKey(w => new { w.EmployeeSSN, w.ProjectName, w.ProjectNumber });
+
+            modelBuilder.Entity<WorksOn>()
+                .HasOne(w => w.Employee)
+                .WithMany(e => e.WorksOns)
+                .HasForeignKey(w => w.EmployeeSSN);
+
+            modelBuilder.Entity<WorksOn>()
+                .HasOne(w => w.Project)
+                .WithMany(p => p.WorksOns)
+                .HasForeignKey(w => new { w.ProjectName, w.ProjectNumber });
 
 
             base.OnModelCreating(modelBuilder);

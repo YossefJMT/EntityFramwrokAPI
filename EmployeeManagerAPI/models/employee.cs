@@ -34,7 +34,7 @@ namespace EmployeeManagerAPI.Models
 
         // Propiedad de navegación para representar al supervisor
         public virtual Employee Supervisor { get; set; }
-        
+
         // Notación de clave compuesta para la relación WorksFor
         public string DepartmentName { get; set; }
         public int DepartmentNumber { get; set; }
@@ -42,6 +42,9 @@ namespace EmployeeManagerAPI.Models
 
         // Propiedad de navegación para la relación Manages
         public virtual Manage Manages { get; set; }
+
+        // Propiedad de navegación para la relación N:N (WorksOn)
+        public virtual ICollection<WorksOn> WorksOns { get; set; }
 
     }
 }

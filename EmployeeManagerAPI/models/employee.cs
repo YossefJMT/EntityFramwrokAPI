@@ -24,6 +24,7 @@ namespace EmployeeManagerAPI.Models
         public decimal Salary { get; set; }
         
         public string Sex { get; set; }
+        [StringLength(150)]
         public string Address { get; set; }
         public DateTime BirthDate { get; set; }
         public string FullName => $"{FirstName} {MiddleInitial} {LastName}";
@@ -33,8 +34,7 @@ namespace EmployeeManagerAPI.Models
 
         // Propiedad de navegación para representar al supervisor
         public virtual Employee Supervisor { get; set; }
-
-
+        
         // Notación de clave compuesta para la relación WorksFor
         public string DepartmentName { get; set; }
         public int DepartmentNumber { get; set; }

@@ -12,6 +12,7 @@ namespace EmployeeManagerAPI.Data
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Department> Departments { get; set; }
         public DbSet<Manage> Manages { get; set; }
+        public DbSet<Project> Projects { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -50,6 +51,19 @@ namespace EmployeeManagerAPI.Data
                 .WithOne(d => d.Manages)
                 .HasForeignKey<Manage>(m => new { m.DepartmentName, m.DepartmentNumber })
                 .OnDelete(DeleteBehavior.Restrict); // Evitar la eliminación en cascada
+
+            // claves primarias compuetas para Project
+            modelBuilder.Entity<Project>()
+                .HasKey(p => new { p.Name, p.Number });
+
+            // Configuración de la relación entre Project y Department
+            modelBuilder.Entity<Project>()
+                .HasOne(p => p.ControllingDepartment)
+                .WithMany(d => d.ControlledProjects)
+                .HasForeignKey(p => new { p.ControllingDepartmentName, p.ControllingDepartmentNumber })
+                .OnDelete(DeleteBehavior.Restrict);
+
+            
 
 
             base.OnModelCreating(modelBuilder);

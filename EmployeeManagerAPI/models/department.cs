@@ -6,11 +6,14 @@ namespace EmployeeManagerAPI.Models
     public class Department
     {
         [Required]
+        [StringLength(50)]
         public string Name { get; set; }
 
         [Required]
+        [StringLength(50)]
         public int Number { get; set; }
 
+        [StringLength(50)]
         public string Locations { get; set; }
 
 
@@ -22,5 +25,10 @@ namespace EmployeeManagerAPI.Models
 
         // Propiedad de navegación para la relación Manages
         public virtual Manage Manages { get; set; }
+
+
+
+        // Propiedad de navegación para la relación con Project
+        public virtual ICollection<Project> ControlledProjects { get; set; }
     }
 }

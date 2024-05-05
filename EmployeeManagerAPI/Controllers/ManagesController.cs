@@ -78,6 +78,9 @@ namespace EmployeeManagerAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<Manage>> PostManage(Manage manage)
         {
+            manage.Employee ??= null;
+            manage.Department ??= null;
+
             _context.Manages.Add(manage);
             try
             {

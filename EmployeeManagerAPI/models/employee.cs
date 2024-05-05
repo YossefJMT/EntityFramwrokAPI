@@ -30,21 +30,21 @@ namespace EmployeeManagerAPI.Models
         public string FullName => $"{FirstName} {MiddleInitial} {LastName}";
 
         // Clave externa para almacenar el ID del supervisor
-        public string SupervisorSSN { get; set; }
+        public string? SupervisorSSN { get; set; }
 
         // Propiedad de navegación para representar al supervisor
-        public virtual Employee Supervisor { get; set; }
+        public virtual Employee? Supervisor { get; set; }
 
         // Notación de clave compuesta para la relación WorksFor
         public string DepartmentName { get; set; }
         public int DepartmentNumber { get; set; }
-        public virtual Department Department { get; set; }
+        public virtual Department? Department { get; set; }
 
         // Propiedad de navegación para la relación Manages
-        public virtual Manage Manages { get; set; }
+        public virtual Manage? Manages { get; set; }
 
         // Propiedad de navegación para la relación N:N (WorksOn)
-        public virtual ICollection<WorksOn> WorksOns { get; set; }
+        public virtual ICollection<WorksOn>? WorksOns { get; set; }
 
     }
 }

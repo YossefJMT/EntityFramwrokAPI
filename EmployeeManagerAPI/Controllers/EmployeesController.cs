@@ -78,6 +78,11 @@ namespace EmployeeManagerAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<Employee>> PostEmployee(Employee employee)
         {
+            employee.Supervisor ??= null;
+            employee.Manages ??= null;
+            employee.WorksOns ??= null;
+            employee.Department ??= null;
+
             _context.Employees.Add(employee);
             try
             {

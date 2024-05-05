@@ -19,6 +19,61 @@ La API proporcionará endpoints para realizar operaciones CRUD (Crear, Leer, Act
 
 Además, se ha propuesto al menos una solicitud adicional que involucra un cálculo relacionado con el salario, proporcionando una funcionalidad extra que permite obtener información agregada sobre los salarios de los empleados en la base de datos.
 
+---
+
+## Uso de la API: Solicitudes Adicionales
+### Cálculo del Costo Total del Proyecto
+
+Esta API REST proporciona un punto final para calcular el costo total de un proyecto. El costo total se calcula sumando los salarios de todos los empleados asignados al proyecto.
+
+#### Método HTTP y Ruta
+
+- Método: GET
+- Ruta: `/api/Projects/{projectName}/{projectNumber}/totalCost`
+
+#### Parámetros de la Ruta
+
+- `{projectName}`: El nombre del proyecto.
+- `{projectNumber}`: El número del proyecto.
+
+#### Respuesta Exitosa
+
+En caso de una solicitud exitosa, el servidor responderá con un código de estado 200 (OK) y el costo total del proyecto en formato decimal.
+
+Ejemplo de respuesta exitosa:
+
+```json
+150000
+```
+
+#### Respuestas de Error
+
+- Código de estado 404 (Not Found): Si no se encuentra el proyecto con el nombre y número especificados en la base de datos.
+
+#### Ejemplo de Uso
+
+##### Solicitud
+
+```
+GET /api/Projects/Desarrollo/1003/totalCost
+```
+
+##### Respuesta
+
+```
+150000
+```
+
+Esta solicitud calcularía el costo total del proyecto con el nombre "Desarrollo" y el número 1003. En este ejemplo, el costo total del proyecto sería de 150,000 unidades monetarias.
+
+--- 
+
+
+
+
+
+
+
 
 
 La base de datos estará diseñada de acuerdo con el siguiente enunciado:

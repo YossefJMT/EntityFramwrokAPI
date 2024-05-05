@@ -121,5 +121,26 @@ namespace EmployeeManagerAPI.Controllers
         {
             return _context.Projects.Any(e => e.Name == id);
         }
+
+        // GET: api/Projects/{projectName}/{projectNumber}/totalCost
+        [HttpGet("{projectName}/{projectNumber}/totalCost")]
+        public async Task<ActionResult<decimal>> GetProjectTotalCost(string projectName, int projectNumber)
+        {
+            var project = await _context.Projects
+                .Include(p => p.WorksOns)
+                    .ThenInclude(w => w.Employee)
+                .FirstOrDefaultAsync(p => p.Name == projectName && p.Number == projectNumber);
+
+            if (project == null)
+            {
+                return NotFound();
+            }
+
+            decimal totalCost = project.WorksOns
+                .Where(w => w.Employee != null && w.Employee.Salary != null) // Filtrar empleados y salarios no nulos
+                .Sum(w => w.Employee.Salary); // Calcular la suma de los salarios
+
+            return totalCost;
+        }
     }
 }

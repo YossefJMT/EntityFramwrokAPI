@@ -12,10 +12,10 @@ namespace EmployeeManagerAPI.Models
         public int ProjectNumber { get; set; }
 
         // Propiedad de navegación para Employee
-        public virtual Employee Employee { get; set; }
+        public virtual Employee? Employee { get; set; }
 
         // Propiedad de navegación para Project
-        public virtual Project Project { get; set; }
+        public virtual Project? Project { get; set; }
 
         // Atributo de horas
         public int Hours { get; set; }

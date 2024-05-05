@@ -78,6 +78,9 @@ namespace EmployeeManagerAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<WorksOn>> PostWorksOn(WorksOn worksOn)
         {
+            worksOn.Employee ??= null;
+            worksOn.Project ??= null;
+
             _context.WorksOns.Add(worksOn);
             try
             {

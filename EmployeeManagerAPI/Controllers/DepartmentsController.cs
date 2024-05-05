@@ -78,6 +78,13 @@ namespace EmployeeManagerAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<Department>> PostDepartment(Department department)
         {
+            // Asignar null si no se proporcionan las propiedades de navegación
+            department.Employees ??= null;
+
+            department.Manages ??= null;
+
+            department.ControlledProjects ??= null;
+
             _context.Departments.Add(department);
             try
             {

@@ -125,5 +125,26 @@ namespace EmployeeManagerAPI.Controllers
         {
             return _context.Departments.Any(e => e.Name == id);
         }
+
+        // GET: api/Departments/{departmentName}/{departmentNumber}/TotalSalary
+        [HttpGet("{departmentName}/{departmentNumber}/TotalSalary")]
+        public async Task<ActionResult<decimal>> GetTotalSalary(string departmentName, int departmentNumber)
+        {
+            // Buscar el departamento por nombre y número
+            var department = await _context.Departments
+                .Include(d => d.Employees) // Incluir la colección de empleados del departamento
+                .FirstOrDefaultAsync(d => d.Name == departmentName && d.Number == departmentNumber);
+
+            if (department == null)
+            {
+                return NotFound(); // Si el departamento no se encuentra, retornar 404 (Not Found)
+            }
+
+            // Calcular el salario total sumando los salarios de todos los empleados
+            decimal totalSalary = department.Employees?.Sum(e => e.Salary) ?? 0;
+
+            return totalSalary;
+        }
+
     }
 }

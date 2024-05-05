@@ -19,7 +19,6 @@ La API proporcionará endpoints para realizar operaciones CRUD (Crear, Leer, Act
 
 Además, se ha propuesto al menos una solicitud adicional que involucra un cálculo relacionado con el salario, proporcionando una funcionalidad extra que permite obtener información agregada sobre los salarios de los empleados en la base de datos.
 
----
 
 ## Uso de la API: Solicitudes Adicionales
 ### Cálculo del Costo Total del Proyecto
@@ -66,19 +65,54 @@ GET /api/Projects/Desarrollo/1003/totalCost
 
 Esta solicitud calcularía el costo total del proyecto con el nombre "Desarrollo" y el número 1003. En este ejemplo, el costo total del proyecto sería de 150,000 unidades monetarias.
 
---- 
+### Cálculo del Salario Total del Departamento
 
+Esta API REST proporciona un punto final para calcular el salario total de un departamento. El salario total se calcula sumando los salarios de todos los empleados asociados al departamento.
 
+#### Método HTTP y Ruta
 
+- Método: GET
+- Ruta: `/api/Departments/{departmentName}/{departmentNumber}/TotalSalary`
 
+#### Parámetros de la Ruta
 
+- `{departmentName}`: El nombre del departamento.
+- `{departmentNumber}`: El número del departamento.
 
+#### Respuesta Exitosa
 
+En caso de una solicitud exitosa, el servidor responderá con un código de estado 200 (OK) y el salario total del departamento en formato decimal.
 
+Ejemplo de respuesta exitosa:
 
-La base de datos estará diseñada de acuerdo con el siguiente enunciado:
+```json
+150000
+```
+
+#### Respuestas de Error
+
+- Código de estado 404 (Not Found): Si no se encuentra el departamento con el nombre y número especificados en la base de datos.
+
+#### Ejemplo de Uso
+
+##### Solicitud
+
+```
+GET /api/Departments/Ventas/101/TotalSalary
+```
+
+##### Respuesta
+
+```
+150000
+```
+
+Esta solicitud calcularía el salario total del departamento con el nombre "Ventas" y el número 101. En este ejemplo, el salario total del departamento sería de 150,000 unidades monetarias.
+
 
 ## Esquema de la Base de Datos
+La base de datos estará diseñada de acuerdo con el siguiente enunciado:
+
 ![alt text](Entidad-Relacion.png)
 ### Entidades
 

@@ -7,7 +7,6 @@ namespace EmployeeManagerAPI.Models
         [StringLength(50)]
         public string Name { get; set; } 
 
-        [StringLength(50)]
         public int Number { get; set; } 
         
         public string Location { get; set; }
@@ -18,9 +17,9 @@ namespace EmployeeManagerAPI.Models
         public int ControllingDepartmentNumber { get; set; }
 
         // Propiedad de navegación para la relación con Department
-        public virtual Department ControllingDepartment { get; set; }
+        public virtual Department? ControllingDepartment { get; set; }
 
         // Propiedad de navegación para la relación N:N (WorksOn)
-        public virtual ICollection<WorksOn> WorksOns { get; set; }
+        public virtual ICollection<WorksOn>? WorksOns { get; set; }
     }
 }

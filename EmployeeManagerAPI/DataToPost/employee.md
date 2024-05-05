@@ -1,5 +1,3 @@
-Entendido, aquí tienes ejemplos de JSON para crear dos trabajadores en cada departamento, donde uno supervise al otro:
-
 ### Ejemplo 1: Trabajadores en el Departamento de Ventas
 
 #### Juan Pérez (Supervisor)
@@ -107,5 +105,3 @@ Entendido, aquí tienes ejemplos de JSON para crear dos trabajadores en cada dep
     "DepartmentNumber": 201
 }
 ```
-
-Estos ejemplos representan dos trabajadores para cada departamento, donde uno supervisa al otro, cumpliendo con tu solicitud.

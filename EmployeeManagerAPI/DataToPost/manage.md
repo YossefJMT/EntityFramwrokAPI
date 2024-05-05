@@ -1,5 +1,3 @@
-Entendido, aquí tienes ejemplos de JSON para crear las relaciones de gestión (Manage) entre los supervisores y los empleados correspondientes en cada departamento:
-
 ### Ejemplo 1: Relación de Gestión en el Departamento de Ventas
 
 #### Juan Pérez supervisa a María Gómez
@@ -35,5 +33,3 @@ Entendido, aquí tienes ejemplos de JSON para crear las relaciones de gestión (
     "DepartmentNumber": 201
 }
 ```
-
-Estos ejemplos representan las relaciones de gestión entre los supervisores y los empleados correspondientes en cada departamento, tal como lo has solicitado.

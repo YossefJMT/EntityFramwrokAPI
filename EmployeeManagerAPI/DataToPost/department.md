@@ -35,5 +35,3 @@ Este JSON representa la creación de un departamento llamado "Desarrollo" con el
     "Locations": "Piso 2, Edificio C"
 }
 ```
-
-Este JSON representa la creación de un departamento llamado "Recursos Humanos" con el número 301 y ubicaciones en el piso 2 del edificio C.

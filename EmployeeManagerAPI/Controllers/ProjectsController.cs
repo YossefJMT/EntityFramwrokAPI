@@ -78,6 +78,9 @@ namespace EmployeeManagerAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<Project>> PostProject(Project project)
         {
+            project.WorksOns ??= null;
+            project.ControllingDepartment ??= null;
+
             _context.Projects.Add(project);
             try
             {

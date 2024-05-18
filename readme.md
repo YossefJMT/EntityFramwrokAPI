@@ -1,6 +1,25 @@
+Aquí tienes la versión actualizada del README con las mejoras sugeridas:
+
 # API con Entity Framework en C# - Documentación
 
-Este proyecto consiste en la creación de una API utilizando Entity Framework y C# para interactuar con una base de datos SQL Server. 
+## Índice
+
+- [Introducción](#introducción)
+- [Tecnologías Utilizadas](#tecnologías-utilizadas)
+- [Uso de la API](#uso-de-la-api)
+  - [Operaciones Básicas](#operaciones-básicas)
+  - [Solicitudes Adicionales](#solicitudes-adicionales)
+    - [Cálculo del Costo Total del Proyecto](#cálculo-del-costo-total-del-proyecto)
+    - [Cálculo del Salario Total del Departamento](#cálculo-del-salario-total-del-departamento)
+- [Esquema de la Base de Datos](#esquema-de-la-base-de-datos)
+- [Configuración de la Base de Datos](#configuración-de-la-base-de-datos)
+- [Ejecución del Proyecto](#ejecución-del-proyecto)
+- [Contribución](#contribución)
+- [Licencia](#licencia)
+
+## Introducción
+
+Este proyecto proporciona una API desarrollada en C# utilizando Entity Framework para interactuar con una base de datos SQL Server. La API está diseñada para manejar operaciones CRUD (Crear, Leer, Actualizar, Eliminar) en entidades como Employee, Department, Project y Dependent.
 
 ## Tecnologías Utilizadas
 
@@ -8,205 +27,62 @@ Este proyecto consiste en la creación de una API utilizando Entity Framework y 
 - **C#**: Lenguaje de programación orientado a objetos ampliamente utilizado en el desarrollo de aplicaciones .NET.
 - **SQL Server**: Sistema de gestión de bases de datos relacional desarrollado por Microsoft.
 
-
 ## Uso de la API
-La API proporcionará endpoints para realizar operaciones CRUD (Crear, Leer, Actualizar, Eliminar) en las entidades Employee, Department, Project y Dependent. Algunos ejemplos de rutas podrían ser:
 
-- GET `/api/employees`: Obtener todos los empleados.
-- GET `/api/departments`: Obtener todos los departamentos.
-- POST `/api/projects`: Crear un nuevo proyecto.
-- PUT `/api/dependents/{id}`: Actualizar la información de un dependiente.
+### Operaciones Básicas
 
-Además, se ha propuesto al menos una solicitud adicional que involucra un cálculo relacionado con el salario, proporcionando una funcionalidad extra que permite obtener información agregada sobre los salarios de los empleados en la base de datos.
+La API proporciona los siguientes endpoints para realizar operaciones básicas:
 
+- `GET /api/employees`: Obtener todos los empleados.
+- `GET /api/departments`: Obtener todos los departamentos.
+- `POST /api/projects`: Crear un nuevo proyecto.
+- `PUT /api/dependents/{id}`: Actualizar la información de un dependiente.
 
-## Uso de la API: Solicitudes Adicionales
-### Cálculo del Costo Total del Proyecto
+### Solicitudes Adicionales
+
+#### Cálculo del Costo Total del Proyecto
 
 Esta API REST proporciona un punto final para calcular el costo total de un proyecto. El costo total se calcula sumando los salarios de todos los empleados asignados al proyecto.
 
-#### Método HTTP y Ruta
+- **Método HTTP y Ruta**:
+  - Método: GET
+  - Ruta: `/api/Projects/{projectName}/{projectNumber}/totalCost`
+- **Parámetros de la Ruta**:
+  - `{projectName}`: El nombre del proyecto.
+  - `{projectNumber}`: El número del proyecto.
+- **Respuesta Exitosa**:
+  - Código de estado 200 (OK) y el costo total del proyecto en formato decimal.
+- **Respuestas de Error**:
+  - Código de estado 404 (Not Found) si no se encuentra el proyecto especificado en la base de datos.
 
-- Método: GET
-- Ruta: `/api/Projects/{projectName}/{projectNumber}/totalCost`
-
-#### Parámetros de la Ruta
-
-- `{projectName}`: El nombre del proyecto.
-- `{projectNumber}`: El número del proyecto.
-
-#### Respuesta Exitosa
-
-En caso de una solicitud exitosa, el servidor responderá con un código de estado 200 (OK) y el costo total del proyecto en formato decimal.
-
-Ejemplo de respuesta exitosa:
-
-```json
-150000
-```
-
-#### Respuestas de Error
-
-- Código de estado 404 (Not Found): Si no se encuentra el proyecto con el nombre y número especificados en la base de datos.
-
-#### Ejemplo de Uso
-
-##### Solicitud
-
-```
-GET /api/Projects/Desarrollo/1003/totalCost
-```
-
-##### Respuesta
-
-```
-150000
-```
-
-Esta solicitud calcularía el costo total del proyecto con el nombre "Desarrollo" y el número 1003. En este ejemplo, el costo total del proyecto sería de 150,000 unidades monetarias.
-
-### Cálculo del Salario Total del Departamento
+#### Cálculo del Salario Total del Departamento
 
 Esta API REST proporciona un punto final para calcular el salario total de un departamento. El salario total se calcula sumando los salarios de todos los empleados asociados al departamento.
 
-#### Método HTTP y Ruta
-
-- Método: GET
-- Ruta: `/api/Departments/{departmentName}/{departmentNumber}/TotalSalary`
-
-#### Parámetros de la Ruta
-
-- `{departmentName}`: El nombre del departamento.
-- `{departmentNumber}`: El número del departamento.
-
-#### Respuesta Exitosa
-
-En caso de una solicitud exitosa, el servidor responderá con un código de estado 200 (OK) y el salario total del departamento en formato decimal.
-
-Ejemplo de respuesta exitosa:
-
-```json
-150000
-```
-
-#### Respuestas de Error
-
-- Código de estado 404 (Not Found): Si no se encuentra el departamento con el nombre y número especificados en la base de datos.
-
-#### Ejemplo de Uso
-
-##### Solicitud
-
-```
-GET /api/Departments/Ventas/101/TotalSalary
-```
-
-##### Respuesta
-
-```
-150000
-```
-
-Esta solicitud calcularía el salario total del departamento con el nombre "Ventas" y el número 101. En este ejemplo, el salario total del departamento sería de 150,000 unidades monetarias.
-
+- **Método HTTP y Ruta**:
+  - Método: GET
+  - Ruta: `/api/Departments/{departmentName}/{departmentNumber}/TotalSalary`
+- **Parámetros de la Ruta**:
+  - `{departmentName}`: El nombre del departamento.
+  - `{departmentNumber}`: El número del departamento.
+- **Respuesta Exitosa**:
+  - Código de estado 200 (OK) y el salario total del departamento en formato decimal.
+- **Respuestas de Error**:
+  - Código de estado 404 (Not Found) si no se encuentra el departamento especificado en la base de datos.
 
 ## Esquema de la Base de Datos
-La base de datos estará diseñada de acuerdo con el siguiente enunciado:
 
-![alt text](Entidad-Relacion.png)
-### Entidades
+La base de datos sigue el siguiente esquema:
 
-1. **Employee**:
-   - Atributos:
-     - Nombre (dividido en Fname, Minit y Lname)
-     - Sexo
-     - Dirección
-     - Salario
-     - SSN (Número de Seguro Social)
-     - Fecha de nacimiento (Bdate)
+![Entidad Relacion](Entidad-Relacion.png)
 
-2. **Department**:
-   - Atributos:
-     - Nombre
-     - Número
-     - Localizaciones
-     - Número de empleados
+### Entidades y Relaciones
 
-3. **Project**:
-   - Atributos:
-     - Nombre
-     - Número
-     - Localización
-
-4. **Dependent**:
-   - Atributos:
-     - Nombre
-     - Sexo
-     - Fecha de nacimiento
-     - Relación
-
-### Relaciones
-
-1. **WorksFor**:
-   - Descripción: Relación N:1 entre Employee y Department, donde un Employee trabaja para un Department y en un Department hay varios Employees.
-
-2. **Manages**:
-   - Descripción: Relación 1:1 entre Employee y Department con el atributo de startDate, donde un Employee gestiona un Department.
-
-3. **WorksOn**:
-   - Descripción: Relación N:N entre Employee y Project con el atributo de hours, donde un Employee trabaja en uno o varios Projects y un Project es trabajado por uno o varios Employees.
-
-4. **Controls**:
-   - Descripción: Relación 1:N entre Project y Department, donde un Project es controlado por un Department y un Department controla varios Projects.
-
-5. **DependentsOf**:
-   - Descripción: Relación 1:N entre Employee y Dependent, donde un Employee tiene uno o varios Dependents y un Dependent está asociado a un Employee.
-
-6. **Supervision**:
-   - Descripción: Relación reflexiva 1:N en Employee, donde un Employee supervisa a uno o varios Employees.
-
-
-## Estructura del Proyecto
-
-El proyecto estará estructurado de la siguiente manera:
-
-```
-- ProyectoAPI
-  - Controllers/
-    - EmployeeController.cs
-    - DepartmentController.cs
-    - ProjectController.cs
-    - DependentController.cs
-  - Models/
-    - Employee.cs
-    - Department.cs
-    - Project.cs
-    - Dependent.cs
-  - Data/
-    - DataContext.cs
-  - Services/
-    - EmployeeService.cs
-    - DepartmentService.cs
-    - ProjectService.cs
-    - DependentService.cs
-  - Migrations/
-  - appsettings.json
-  - ProyectoAPI.csproj
-```
+Detalles sobre las entidades y relaciones se pueden encontrar en la imagen del esquema o en la documentación del código.
 
 ## Configuración de la Base de Datos
 
-La configuración de la base de datos se realizará en el archivo `appsettings.json`, donde se especificarán los parámetros de conexión a la base de datos SQL Server.
-
-```json
-{
-  "ConnectionStrings": {
-    "DefaultConnection": "Server=localhost;Database=ProyectoDB;Trusted_Connection=True;"
-  }
-}
-```
-
-Se utilizarán las migraciones de Entity Framework para crear y actualizar la base de datos según los modelos definidos en el proyecto.
+La configuración de la base de datos se realiza en el archivo `appsettings.json`, donde se especifican los parámetros de conexión a la base de datos SQL Server.
 
 ## Ejecución del Proyecto
 
@@ -218,6 +94,12 @@ dotnet ef database update
 dotnet run
 ```
 
-Esto restaurará las dependencias del proyecto, aplicará las migraciones pendientes para crear la base de datos y ejecutará la aplicación.
+## Contribución
+
+¡Se aceptan contribuciones! Si deseas contribuir al proyecto, por favor abre un issue o envía una solicitud de extracción.
+
+## Licencia
+
+Este proyecto está bajo la licencia [MIT](LICENSE).
 
 ¡Bienvenido a la documentación de tu API con Entity Framework y C#! Este README proporciona una guía completa sobre cómo comenzar con el desarrollo de tu proyecto! Si necesitas más detalles sobre alguna parte en particular, no dudes en consultar la documentación oficial de las tecnologías utilizadas o hacerme cualquier pregunta adicional. ¡Buena suerte con tu proyecto!

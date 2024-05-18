@@ -8,6 +8,8 @@ namespace EmployeeManagerAPI.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<Employee> builder)
         {
+            builder.HasKey(e => e.SSN);
+
             builder.HasOne(e => e.Supervisor)
                     .WithMany()
                     .HasForeignKey(e => e.SupervisorSSN)
@@ -17,6 +19,11 @@ namespace EmployeeManagerAPI.Data.Configurations
                     .WithMany(d => d.Employees)
                     .HasForeignKey(e => new { e.DepartmentName, e.DepartmentNumber })
                     .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasMany(e => e.Dependents)
+                    .WithOne(d => d.Employee)
+                    .HasForeignKey(d => d.EmployeeSSN)
+                    .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

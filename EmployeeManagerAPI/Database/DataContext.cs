@@ -15,6 +15,7 @@ namespace EmployeeManagerAPI.Data
         public DbSet<Manage> Manages { get; set; }
         public DbSet<Project> Projects { get; set; }
         public DbSet<WorksOn> WorksOns { get; set; }
+        public DbSet<Dependent> Dependents { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -23,6 +24,7 @@ namespace EmployeeManagerAPI.Data
             modelBuilder.ApplyConfiguration(new ManageConfiguration());
             modelBuilder.ApplyConfiguration(new ProjectConfiguration());
             modelBuilder.ApplyConfiguration(new WorksOnConfiguration());
+            modelBuilder.ApplyConfiguration(new DependentConfiguration());
         }
     }
 }

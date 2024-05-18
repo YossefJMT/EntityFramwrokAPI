@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -13,9 +14,11 @@ namespace EmployeeManagerAPI.Models
         [Required]
         [StringLength(50)]
         public string FirstName { get; set; }
+        
         [Required]
         [StringLength(1)]
         public string MiddleInitial { get; set; }
+        
         [Required]
         [StringLength(50)]
         public string LastName { get; set; }
@@ -26,7 +29,9 @@ namespace EmployeeManagerAPI.Models
         public string Sex { get; set; }
         [StringLength(150)]
         public string Address { get; set; }
+
         public DateTime BirthDate { get; set; }
+        
         public string FullName => $"{FirstName} {MiddleInitial} {LastName}";
 
         // Clave externa para almacenar el ID del supervisor
@@ -46,5 +51,7 @@ namespace EmployeeManagerAPI.Models
         // Propiedad de navegación para la relación N:N (WorksOn)
         public virtual ICollection<WorksOn>? WorksOns { get; set; }
 
+        // Propiedad de navegación para la relación 1:N con Dependent
+        public virtual ICollection<Dependent>? Dependents { get; set; }
     }
 }

@@ -13,7 +13,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddScoped<DepartmentService>();
 builder.Services.AddScoped<DependentService>();
 builder.Services.AddScoped<EmployeeService>();
-// builder.Services.AddScoped<ManageService>();
+builder.Services.AddScoped<ManageService>();
 // builder.Services.AddScoped<ProjectService>();
 // builder.Services.AddScoped<WorksOnService>();
 

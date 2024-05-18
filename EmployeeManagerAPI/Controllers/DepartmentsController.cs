@@ -1,12 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using EmployeeManagerAPI.Data;
 using EmployeeManagerAPI.Models;
+using EmployeeManagerAPI.Services;
 
 namespace EmployeeManagerAPI.Controllers
 {
@@ -14,36 +11,34 @@ namespace EmployeeManagerAPI.Controllers
     [ApiController]
     public class DepartmentsController : ControllerBase
     {
-        private readonly DataContext _context;
+        private readonly DepartmentService _departmentService;
 
-        public DepartmentsController(DataContext context)
+        public DepartmentsController(DepartmentService departmentService)
         {
-            _context = context;
+            _departmentService = departmentService ?? throw new ArgumentNullException(nameof(departmentService));
         }
 
         // GET: api/Departments
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Department>>> GetDepartments()
         {
-            return await _context.Departments.ToListAsync();
+            var departments = await _departmentService.GetDepartmentsAsync();
+            return Ok(departments);
         }
 
         // GET: api/Departments/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Department>> GetDepartment(string id)
         {
-            var department = await _context.Departments.FindAsync(id);
-
+            var department = await _departmentService.GetDepartmentAsync(id);
             if (department == null)
             {
                 return NotFound();
             }
-
             return department;
         }
 
         // PUT: api/Departments/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutDepartment(string id, Department department)
         {
@@ -51,100 +46,60 @@ namespace EmployeeManagerAPI.Controllers
             {
                 return BadRequest();
             }
-
-            _context.Entry(department).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
+                await _departmentService.UpdateDepartmentAsync(id, department);
             }
-            catch (DbUpdateConcurrencyException)
+            catch (ArgumentException)
             {
-                if (!DepartmentExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return NotFound();
             }
-
             return NoContent();
         }
 
         // POST: api/Departments
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<Department>> PostDepartment(Department department)
         {
-            // Asignar null si no se proporcionan las propiedades de navegación
-            department.Employees ??= null;
-
-            department.Manages ??= null;
-
-            department.ControlledProjects ??= null;
-
-            _context.Departments.Add(department);
             try
             {
-                await _context.SaveChangesAsync();
+                await _departmentService.CreateDepartmentAsync(department);
             }
-            catch (DbUpdateException)
+            catch (ArgumentException)
             {
-                if (DepartmentExists(department.Name))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
+                return Conflict();
             }
-
-            return CreatedAtAction("GetDepartment", new { id = department.Name }, department);
+            return CreatedAtAction(nameof(GetDepartment), new { id = department.Name }, department);
         }
 
         // DELETE: api/Departments/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteDepartment(string id)
         {
-            var department = await _context.Departments.FindAsync(id);
-            if (department == null)
+            try
+            {
+                await _departmentService.DeleteDepartmentAsync(id);
+            }
+            catch (ArgumentException)
             {
                 return NotFound();
             }
-
-            _context.Departments.Remove(department);
-            await _context.SaveChangesAsync();
-
             return NoContent();
-        }
-
-        private bool DepartmentExists(string id)
-        {
-            return _context.Departments.Any(e => e.Name == id);
         }
 
         // GET: api/Departments/{departmentName}/{departmentNumber}/TotalSalary
         [HttpGet("{departmentName}/{departmentNumber}/TotalSalary")]
         public async Task<ActionResult<decimal>> GetTotalSalary(string departmentName, int departmentNumber)
         {
-            // Buscar el departamento por nombre y número
-            var department = await _context.Departments
-                .Include(d => d.Employees) // Incluir la colección de empleados del departamento
-                .FirstOrDefaultAsync(d => d.Name == departmentName && d.Number == departmentNumber);
-
-            if (department == null)
+            try
             {
-                return NotFound(); // Si el departamento no se encuentra, retornar 404 (Not Found)
+                var totalSalary = await _departmentService.GetTotalSalaryAsync(departmentName, departmentNumber);
+                return Ok(totalSalary);
             }
-
-            // Calcular el salario total sumando los salarios de todos los empleados
-            decimal totalSalary = department.Employees?.Sum(e => e.Salary) ?? 0;
-
-            return totalSalary;
+            catch (ArgumentException)
+            {
+                return NotFound();
+            }
         }
-
     }
 }

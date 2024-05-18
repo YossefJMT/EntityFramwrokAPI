@@ -14,8 +14,8 @@ builder.Services.AddScoped<DepartmentService>();
 builder.Services.AddScoped<DependentService>();
 builder.Services.AddScoped<EmployeeService>();
 builder.Services.AddScoped<ManageService>();
-// builder.Services.AddScoped<ProjectService>();
-// builder.Services.AddScoped<WorksOnService>();
+builder.Services.AddScoped<ProjectService>();
+builder.Services.AddScoped<WorksOnService>();
 
 
 builder.Services.AddControllers().AddNewtonsoftJson(options =>

@@ -101,6 +101,6 @@ dotnet run
 
 ## Licencia
 
-Este proyecto está bajo la licencia [MIT](LICENSE).
+Este proyecto está bajo la licencia MIT.
 
 ¡Bienvenido a la documentación de tu API con Entity Framework y C#! Este README proporciona una guía completa sobre cómo comenzar con el desarrollo de tu proyecto! Si necesitas más detalles sobre alguna parte en particular, no dudes en consultar la documentación oficial de las tecnologías utilizadas o hacerme cualquier pregunta adicional. ¡Buena suerte con tu proyecto!

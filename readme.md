@@ -75,6 +75,7 @@ Esta API REST proporciona un punto final para calcular el salario total de un de
 La base de datos sigue el siguiente esquema:
 
 ![Entidad Relacion](Entidad-Relacion.png)
+![DBeaver Schema](/EmployeeManagerAPI/Database/DbSchema.png)
 
 ### Entidades y Relaciones
 

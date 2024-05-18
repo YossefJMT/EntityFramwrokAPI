@@ -1,146 +1,90 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using EmployeeManagerAPI.Data;
 using EmployeeManagerAPI.Models;
+using EmployeeManagerAPI.Services;
 
 namespace EmployeeManagerAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProjectsController : ControllerBase
+    public class ProjectsController(ProjectService projectService) : ControllerBase
     {
-        private readonly DataContext _context;
+        private readonly ProjectService _projectService = projectService ?? throw new ArgumentNullException(nameof(projectService));
 
-        public ProjectsController(DataContext context)
-        {
-            _context = context;
-        }
-
-        // GET: api/Projects
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Project>>> GetProjects()
         {
-            return await _context.Projects.ToListAsync();
+            var projects = await _projectService.GetProjectsAsync();
+            return Ok(projects);
         }
 
-        // GET: api/Projects/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Project>> GetProject(string id)
+        [HttpGet("{name}/{number}")]
+        public async Task<ActionResult<Project>> GetProject(string name, int number)
         {
-            var project = await _context.Projects.FindAsync(id);
-
+            var project = await _projectService.GetProjectAsync(name, number);
             if (project == null)
             {
                 return NotFound();
             }
-
-            return project;
+            return Ok(project);
         }
 
-        // PUT: api/Projects/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutProject(string id, Project project)
+        [HttpPut("{name}/{number}")]
+        public async Task<IActionResult> PutProject(string name, int number, Project project)
         {
-            if (id != project.Name)
+            try
+            {
+                await _projectService.UpdateProjectAsync(name, number, project);
+                return NoContent();
+            }
+            catch (ArgumentException)
             {
                 return BadRequest();
             }
-
-            _context.Entry(project).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ProjectExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
         }
 
-        // POST: api/Projects
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<Project>> PostProject(Project project)
         {
-            project.WorksOns ??= null;
-            project.ControllingDepartment ??= null;
-
-            _context.Projects.Add(project);
             try
             {
-                await _context.SaveChangesAsync();
+                await _projectService.AddProjectAsync(project);
+                return CreatedAtAction(nameof(GetProject), new { name = project.Name, number = project.Number }, project);
             }
-            catch (DbUpdateException)
+            catch (ArgumentException)
             {
-                if (ProjectExists(project.Name))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
+                return Conflict();
             }
-
-            return CreatedAtAction("GetProject", new { id = project.Name }, project);
         }
 
-        // DELETE: api/Projects/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteProject(string id)
+        [HttpDelete("{name}/{number}")]
+        public async Task<IActionResult> DeleteProject(string name, int number)
         {
-            var project = await _context.Projects.FindAsync(id);
-            if (project == null)
+            try
+            {
+                await _projectService.DeleteProjectAsync(name, number);
+                return NoContent();
+            }
+            catch (ArgumentException)
             {
                 return NotFound();
             }
-
-            _context.Projects.Remove(project);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
         }
 
-        private bool ProjectExists(string id)
-        {
-            return _context.Projects.Any(e => e.Name == id);
-        }
-
-        // GET: api/Projects/{projectName}/{projectNumber}/totalCost
         [HttpGet("{projectName}/{projectNumber}/totalCost")]
         public async Task<ActionResult<decimal>> GetProjectTotalCost(string projectName, int projectNumber)
         {
-            var project = await _context.Projects
-                .Include(p => p.WorksOns)
-                    .ThenInclude(w => w.Employee)
-                .FirstOrDefaultAsync(p => p.Name == projectName && p.Number == projectNumber);
-
-            if (project == null)
+            try
+            {
+                var totalCost = await _projectService.GetProjectTotalCostAsync(projectName, projectNumber);
+                return Ok(totalCost);
+            }
+            catch (ArgumentException)
             {
                 return NotFound();
             }
-
-            decimal totalCost = project.WorksOns
-                .Where(w => w.Employee != null && w.Employee.Salary != null) // Filtrar empleados y salarios no nulos
-                .Sum(w => w.Employee.Salary); // Calcular la suma de los salarios
-
-            return totalCost;
         }
     }
 }

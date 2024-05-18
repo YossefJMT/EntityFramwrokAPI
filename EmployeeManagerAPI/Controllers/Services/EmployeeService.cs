@@ -7,23 +7,32 @@ using EmployeeManagerAPI.Data;
 
 namespace EmployeeManagerAPI.Services
 {
-    public class EmployeeService
+    public class EmployeeService(DataContext context)
     {
-        private readonly DataContext _context;
-
-        public EmployeeService(DataContext context)
-        {
-            _context = context ?? throw new ArgumentNullException(nameof(context));
-        }
+        private readonly DataContext _context = context ?? throw new ArgumentNullException(nameof(context));
 
         public async Task<IEnumerable<Employee>> GetEmployeesAsync()
         {
-            return await _context.Employees.ToListAsync();
+            return await _context.Employees
+                                    .Include(e => e.Department) // Incluir la propiedad de navegación Department
+                                    .Include(e => e.Supervisor) // Incluir la propiedad de navegación Supervisor
+                                    .Include(e => e.WorksOns) // Incluir la propiedad de navegación WorksOns
+                                    .Include(e => e.Dependents) // Incluir la propiedad de navegación Dependents
+                                    .Include(e => e.Manages) // Incluir la propiedad de navegación Manages
+                                    .Include(e => e.Supervisor) // Incluir la propiedad de navegación Supervisor
+                                    .ToListAsync();
         }
 
         public async Task<Employee?> GetEmployeeAsync(string id)
         {
-            return await _context.Employees.FindAsync(id);
+            return await _context.Employees
+                                    .Include(e => e.Department) // Incluir la propiedad de navegación Department
+                                    .Include(e => e.Supervisor) // Incluir la propiedad de navegación Supervisor
+                                    .Include(e => e.WorksOns) // Incluir la propiedad de navegación WorksOns
+                                    .Include(e => e.Dependents) // Incluir la propiedad de navegación Dependents
+                                    .Include(e => e.Manages) // Incluir la propiedad de navegación Manages
+                                    .Include(e => e.Supervisor) // Incluir la propiedad de navegación Supervisor
+                                    .FirstOrDefaultAsync(e => e.SSN == id);
         }
 
         public async Task UpdateEmployeeAsync(string id, Employee employee)

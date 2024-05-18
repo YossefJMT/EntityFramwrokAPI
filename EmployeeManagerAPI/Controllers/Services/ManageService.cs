@@ -13,13 +13,20 @@ namespace EmployeeManagerAPI.Services
 
         public async Task<IEnumerable<Manage>> GetManagesAsync()
         {
-            return await _context.Manages.ToListAsync();
+            return await _context.Manages
+                                    .Include(m => m.Employee) // Incluir la propiedad de navegación Employee
+                                    .Include(m => m.Department) // Incluir la propiedad de navegación Department
+                                    .ToListAsync();
         }
 
         public async Task<Manage?> GetManageAsync(string employeeSSN)
         {
-            return await _context.Manages.FindAsync(employeeSSN);
+            return await _context.Manages
+                                    .Include(m => m.Employee) // Incluir la propiedad de navegación Employee
+                                    .Include(m => m.Department) // Incluir la propiedad de navegación Department
+                                    .FirstOrDefaultAsync(m => m.EmployeeSSN == employeeSSN);
         }
+
 
         public async Task UpdateManageAsync(string employeeSSN, Manage manage)
         {

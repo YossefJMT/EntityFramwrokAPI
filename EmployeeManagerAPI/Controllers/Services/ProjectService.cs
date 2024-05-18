@@ -10,15 +10,20 @@ namespace EmployeeManagerAPI.Services
     public class ProjectService(DataContext context)
     {
         private readonly DataContext _context = context ?? throw new ArgumentNullException(nameof(context));
-
         public async Task<IEnumerable<Project>> GetProjectsAsync()
         {
-            return await _context.Projects.ToListAsync();
+            return await _context.Projects
+                                    .Include(p => p.ControllingDepartment) // Incluir la propiedad de navegación ControllingDepartment
+                                    .Include(p => p.WorksOns) // Incluir la propiedad de navegación WorksOns
+                                    .ToListAsync();
         }
 
         public async Task<Project?> GetProjectAsync(string name, int number)
         {
-            return await _context.Projects.FindAsync(name, number);
+            return await _context.Projects
+                                    .Include(p => p.ControllingDepartment) // Incluir la propiedad de navegación ControllingDepartment
+                                    .Include(p => p.WorksOns) // Incluir la propiedad de navegación WorksOns
+                                    .FirstOrDefaultAsync(p => p.Name == name && p.Number == number);
         }
 
         public async Task UpdateProjectAsync(string name, int number, Project project)
@@ -54,7 +59,7 @@ namespace EmployeeManagerAPI.Services
                 .Include(p => p.WorksOns)
                     .ThenInclude(w => w.Employee)
                 .FirstOrDefaultAsync(p => p.Name == projectName && p.Number == projectNumber) ?? throw new ArgumentException("Project not found");
-            
+
             decimal totalCost = project.WorksOns
                 .Where(w => w.Employee != null && w.Employee.Salary != null)
                 .Sum(w => w.Employee.Salary);

@@ -33,6 +33,11 @@ namespace EmployeeManagerAPI.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutDependent(int id, Dependent dependent)
         {
+            if (id != dependent.DependentId)
+            {
+                return BadRequest("Dependent ID mismatch");
+            }
+
             await _dependentService.UpdateDependentAsync(id, dependent);
             return NoContent();
         }
@@ -40,6 +45,16 @@ namespace EmployeeManagerAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<Dependent>> PostDependent(Dependent dependent)
         {
+            // Ignorar la validación de la propiedad de navegación 'Employee'
+            ModelState.Remove(nameof(dependent.Employee));
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            dependent.Employee = await _dependentService.GetEmployeeBySSNAsync(dependent.EmployeeSSN);
+
             await _dependentService.AddDependentAsync(dependent);
             return CreatedAtAction(nameof(GetDependent), new { id = dependent.DependentId }, dependent);
         }

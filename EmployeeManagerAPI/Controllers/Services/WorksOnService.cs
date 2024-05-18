@@ -13,12 +13,18 @@ namespace EmployeeManagerAPI.Services
 
         public async Task<IEnumerable<WorksOn>> GetWorksOnsAsync()
         {
-            return await _context.WorksOns.ToListAsync();
+            return await _context.WorksOns
+                                    .Include(w => w.Employee) // Incluir la propiedad de navegación Employee
+                                    .Include(w => w.Project) // Incluir la propiedad de navegación Project
+                                    .ToListAsync();
         }
 
         public async Task<WorksOn?> GetWorksOnAsync(string employeeSSN, string projectName, int projectNumber)
         {
-            return await _context.WorksOns.FindAsync(employeeSSN, projectName, projectNumber);
+            return await _context.WorksOns
+                                    .Include(w => w.Employee) // Incluir la propiedad de navegación Employee
+                                    .Include(w => w.Project) // Incluir la propiedad de navegación Project
+                                    .FirstOrDefaultAsync(w => w.EmployeeSSN == employeeSSN && w.ProjectName == projectName && w.ProjectNumber == projectNumber);
         }
 
         public async Task UpdateWorksOnAsync(string employeeSSN, string projectName, int projectNumber, WorksOn worksOn)

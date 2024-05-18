@@ -13,13 +13,22 @@ namespace EmployeeManagerAPI.Services
 
         public async Task<IEnumerable<Department>> GetDepartmentsAsync()
         {
-            return await _context.Departments.ToListAsync();
+            return await _context.Departments
+                                    .Include(d => d.Employees) // Incluir la propiedad de navegación Employees
+                                    .Include(d => d.Manages)   // Incluir la propiedad de navegación Manages
+                                    .Include(d => d.ControlledProjects) // Incluir la propiedad de navegación ControlledProjects
+                                    .ToListAsync();
         }
 
         public async Task<Department?> GetDepartmentAsync(string name, int number)
         {
-            return await _context.Departments.FindAsync(name, number);
+            return await _context.Departments
+                                    .Include(d => d.Employees) // Incluir la propiedad de navegación Employees
+                                    .Include(d => d.Manages)   // Incluir la propiedad de navegación Manages
+                                    .Include(d => d.ControlledProjects) // Incluir la propiedad de navegación ControlledProjects
+                                    .FirstOrDefaultAsync(d => d.Name == name && d.Number == number);
         }
+
 
         public async Task UpdateDepartmentAsync(string name, int number, Department department)
         {

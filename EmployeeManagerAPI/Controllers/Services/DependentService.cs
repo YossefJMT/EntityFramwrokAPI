@@ -13,12 +13,16 @@ namespace EmployeeManagerAPI.Services
 
         public async Task<IEnumerable<Dependent>> GetDependentsAsync()
         {
-            return await _context.Dependents.ToListAsync();
+            return await _context.Dependents
+                                    .Include(d => d.Employee) // Incluir la propiedad de navegación Employee
+                                    .ToListAsync();
         }
 
         public async Task<Dependent?> GetDependentAsync(int id)
         {
-            return await _context.Dependents.FindAsync(id);
+            return await _context.Dependents
+                                    .Include(d => d.Employee) // Incluir la propiedad de navegación Employee
+                                    .FirstOrDefaultAsync(d => d.DependentId == id);
         }
 
         public async Task UpdateDependentAsync(int id, Dependent dependent)
@@ -42,6 +46,11 @@ namespace EmployeeManagerAPI.Services
             var dependent = await _context.Dependents.FindAsync(id) ?? throw new ArgumentException("Dependent not found");
             _context.Dependents.Remove(dependent);
             await _context.SaveChangesAsync();
+        }
+        
+        public async Task<Employee?> GetEmployeeBySSNAsync(string employeeSSN)
+        {
+            return await _context.Employees.FirstOrDefaultAsync(e => e.SSN == employeeSSN);
         }
     }
 }

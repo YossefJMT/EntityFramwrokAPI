@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace EmployeeManagerAPI.Models
 {
@@ -30,6 +31,6 @@ namespace EmployeeManagerAPI.Models
         public string EmployeeSSN { get; set; }
 
         // Propiedad de navegación para Employee
-        public virtual Employee Employee { get; set; }
+        public virtual Employee? Employee { get; set; }
     }
 }

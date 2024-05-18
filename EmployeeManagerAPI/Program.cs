@@ -3,13 +3,14 @@ using EmployeeManagerAPI.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using EmployeeManagerAPI.Services;
 
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-// builder.Services.AddControllers();
+builder.Services.AddScoped<DepartmentService>();
 
 builder.Services.AddControllers().AddNewtonsoftJson(options =>
 {

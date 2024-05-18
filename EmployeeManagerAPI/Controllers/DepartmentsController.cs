@@ -9,14 +9,9 @@ namespace EmployeeManagerAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class DepartmentsController : ControllerBase
+    public class DepartmentsController(DepartmentService departmentService) : ControllerBase
     {
-        private readonly DepartmentService _departmentService;
-
-        public DepartmentsController(DepartmentService departmentService)
-        {
-            _departmentService = departmentService ?? throw new ArgumentNullException(nameof(departmentService));
-        }
+        private readonly DepartmentService _departmentService = departmentService ?? throw new ArgumentNullException(nameof(departmentService));
 
         // GET: api/Departments
         [HttpGet]
@@ -26,11 +21,11 @@ namespace EmployeeManagerAPI.Controllers
             return Ok(departments);
         }
 
-        // GET: api/Departments/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Department>> GetDepartment(string id)
+        // GET: api/Departments/{name}/{number}
+        [HttpGet("{name}/{number}")]
+        public async Task<ActionResult<Department>> GetDepartment(string name, int number)
         {
-            var department = await _departmentService.GetDepartmentAsync(id);
+            var department = await _departmentService.GetDepartmentAsync(name, number);
             if (department == null)
             {
                 return NotFound();
@@ -38,23 +33,19 @@ namespace EmployeeManagerAPI.Controllers
             return department;
         }
 
-        // PUT: api/Departments/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutDepartment(string id, Department department)
+        // PUT: api/Departments/{name}/{number}
+        [HttpPut("{name}/{number}")]
+        public async Task<IActionResult> PutDepartment(string name, int number, Department department)
         {
-            if (id != department.Name)
-            {
-                return BadRequest();
-            }
             try
             {
-                await _departmentService.UpdateDepartmentAsync(id, department);
+                await _departmentService.UpdateDepartmentAsync(name, number, department);
+                return NoContent();
             }
             catch (ArgumentException)
             {
                 return NotFound();
             }
-            return NoContent();
         }
 
         // POST: api/Departments
@@ -64,27 +55,27 @@ namespace EmployeeManagerAPI.Controllers
             try
             {
                 await _departmentService.CreateDepartmentAsync(department);
+                return CreatedAtAction(nameof(GetDepartment), new { name = department.Name, number = department.Number }, department);
             }
             catch (ArgumentException)
             {
                 return Conflict();
             }
-            return CreatedAtAction(nameof(GetDepartment), new { id = department.Name }, department);
         }
 
-        // DELETE: api/Departments/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteDepartment(string id)
+        // DELETE: api/Departments/{name}/{number}
+        [HttpDelete("{name}/{number}")]
+        public async Task<IActionResult> DeleteDepartment(string name, int number)
         {
             try
             {
-                await _departmentService.DeleteDepartmentAsync(id);
+                await _departmentService.DeleteDepartmentAsync(name, number);
+                return NoContent();
             }
             catch (ArgumentException)
             {
                 return NotFound();
             }
-            return NoContent();
         }
 
         // GET: api/Departments/{departmentName}/{departmentNumber}/TotalSalary

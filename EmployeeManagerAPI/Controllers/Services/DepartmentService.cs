@@ -7,28 +7,23 @@ using EmployeeManagerAPI.Data;
 
 namespace EmployeeManagerAPI.Services
 {
-    public class DepartmentService
+    public class DepartmentService(DataContext context)
     {
-        private readonly DataContext _context;
-
-        public DepartmentService(DataContext context)
-        {
-            _context = context ?? throw new ArgumentNullException(nameof(context));
-        }
+        private readonly DataContext _context = context ?? throw new ArgumentNullException(nameof(context));
 
         public async Task<IEnumerable<Department>> GetDepartmentsAsync()
         {
             return await _context.Departments.ToListAsync();
         }
 
-        public async Task<Department?> GetDepartmentAsync(string id)
+        public async Task<Department?> GetDepartmentAsync(string name, int number)
         {
-            return await _context.Departments.FindAsync(id);
+            return await _context.Departments.FindAsync(name, number);
         }
 
-        public async Task UpdateDepartmentAsync(string id, Department department)
+        public async Task UpdateDepartmentAsync(string name, int number, Department department)
         {
-            if (id != department.Name)
+            if (name != department.Name || number != department.Number)
             {
                 throw new ArgumentException("Department ID mismatch");
             }
@@ -49,9 +44,9 @@ namespace EmployeeManagerAPI.Services
             }
         }
 
-        public async Task DeleteDepartmentAsync(string id)
+        public async Task DeleteDepartmentAsync(string name, int number)
         {
-            var department = await _context.Departments.FindAsync(id);
+            var department = await _context.Departments.FindAsync(name, number);
             if (department == null)
             {
                 throw new ArgumentException("Department not found");
